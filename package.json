@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^9.15.0",
+    "react-icons": "^4.7.1"
+  }
+}
