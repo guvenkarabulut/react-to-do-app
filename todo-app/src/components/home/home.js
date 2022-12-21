@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react'
 import db, { auth } from '../firebases'
 import './home.css'
 import Card from '../card/card';
-
+import Add from '../add/add';
 
 function Home({ user }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [email, setEmail] = useState()
-  const [done, setDone] = useState()
-
   const [todolar, setTodolar] = useState([]);
 
   useEffect(() => {
@@ -19,21 +14,11 @@ function Home({ user }) {
     })
   }, [])
 
-  const add = (e) => {
-    e.preventDefault();
-    db.collection('todo').add({
-      title: title,
-      content: content,
-      email: user.email,
-      done: false
-    });
-    setEmail();
-    setTitle("");
-    setContent("");
-    setDone();
-  }
+
   // create a state for react function component
   const [isVisible, setIsVisible] = useState(false)
+  const [isVisibleEkle, setIsVisibleEkle] = useState(false)
+
   return (
     <div className='home'>
 
@@ -52,25 +37,11 @@ function Home({ user }) {
             </button> : null}
         </div>
       </div>
+      <button className='btn btn-outline-danger' onClick={() => {
+        setIsVisibleEkle(!isVisibleEkle)
+      }} >Add Task</button>
 
-      <form className='data-input'>
-        <input
-          className='form-control input'
-          placeholder='Başlık'
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          className='form-control input'
-          placeholder='Yapılacaklar'
-          type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <button className='btn btn-outline-danger' onClick={add}>Gönder</button>
-      </form>
-      <div className='main-todo'>
+      {isVisibleEkle ? <Add user={user} /> : <div className='main-todo'>
         <div className="todo-goster">
           {todolar.map(({ id, todo }) => (
             <div className='todo' key={id}>
@@ -78,7 +49,8 @@ function Home({ user }) {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
+
     </div>
   )
 }
