@@ -2,9 +2,24 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // import react icons
 import { AiFillEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { TiTickOutline } from 'react-icons/ti'
+import { BsClockHistory } from 'react-icons/bs'
 import './card.css'
 import db from '../firebases'
 
+const diffTime = (date) => {
+    const currentDate = new Date().getTime();
+    console.log(currentDate);
+    const diff = date - currentDate;
+    const diffHours = Math.round((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    if (diffHours < 4) {
+        return 'btn btn-danger disabled d-flex align-items-center'
+    }
+    else {
+        return 'btn btn-success disabled d-flex align-items-center'
+    }
+}
 export class Card extends Component {
     // create state constructer for card component
     constructor(props) {
@@ -13,15 +28,12 @@ export class Card extends Component {
             isVisible: false
         }
     }
-
     render() {
         return (
             <div className='col-md-16 mb-4'>
-                <div className='card border-warning'>
-                    <div className='card-header bg-transparent border-warning d-flex justify-content-between'>
-                        {/* // create a button and header text same line */}
-                        {/* //create a button with react icons and bootstrap */}
-                        <button type='button' className='btn btn-warning' onClick={() => {
+                <div className={this.props.done ? 'card border-danger mb-3' : 'card border-warning'}>
+                    <div className='card-header d-flex justify-content-between'>
+                        <button type='button' className={this.props.done ? 'btn btn-danger d-flex align-items-center' : 'btn btn-warning d-flex align-items-center'} onClick={() => {
                             this.setState({
                                 isVisible: !this.state.isVisible
                             })
@@ -32,31 +44,35 @@ export class Card extends Component {
                         <p className='see'></p>
 
                     </div>
-                    <div className='card-body bg-transparent border-warning'>
+                    <div className='card-body'>
                         {this.state.isVisible ? <p className='card-text'>{this.props.description}</p> : null}
                     </div>
-                    <div className='card-footer bg-transparent border-warning'>
-                        <button type='button' className='btn btn-success' onClick={() => {
+                    <div className='card-footer d-flex justify-content-between'>
+                        <button type='button' className={this.props.done ? 'btn btn-success disabled d-flex align-items-center' : 'btn btn-success d-flex align-items-center'} onClick={() => {//'btn btn-success'
                             db.collection('todo').doc(this.props.id).update({
                                 done: true
                             })
-                        }}>Done</button>
+                        }}><TiTickOutline /></button>
+                        <button type='button' className={diffTime(this.props.date)}> <BsClockHistory /> </button>
                     </div>
                 </div>
-            </div>
+            </div >
 
         )
     }
 }
+//'btn btn-success disabled d-flex align-items-center'
 //create react props config for card component
 Card.propTypes = {
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
+    description: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired
 }
 //create react default props config for card component
 Card.defaultProps = {
     title: 'Default Title',
-    description: 'Default Description'
+    description: 'Default Description',
+    done: true
 }
 
 export default Card

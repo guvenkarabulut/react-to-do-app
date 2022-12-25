@@ -8,7 +8,7 @@ function Home({ user }) {
   const [todolar, setTodolar] = useState([]);
 
   useEffect(() => {
-    db.collection('todo').where('email', '==', user.email).where('done', '==', false).onSnapshot(snapshot => {
+    db.collection('todo').where('email', '==', user.email).onSnapshot(snapshot => {
       setTodolar(snapshot.docs.map(doc => ({ id: doc.id, todo: doc.data() })))
 
     })
@@ -45,7 +45,7 @@ function Home({ user }) {
         <div className="todo-goster">
           {todolar.map(({ id, todo }) => (
             <div className='todo' key={id}>
-              <Card key={id} id={id} title={todo.title} description={todo.content} />
+              <Card key={id} id={id} title={todo.title} description={todo.content} done={todo.done} date={todo.date} />
             </div>
           ))}
         </div>

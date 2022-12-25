@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import db from '../firebases'
 import './add.css'
 import DateTimePicker from 'react-datetime-picker';
-import { AiFillPlusCircle } from 'react-icons/ai'
-import Button from 'react-bootstrap/Button';
-
 
 function Add({ user }) {
     const [title, setTitle] = useState("");
@@ -17,13 +14,15 @@ function Add({ user }) {
         db.collection('todo').add({
             title: title,
             content: content,
+            currentDate: Date(),
+            date: value.getTime(),
             email: user.email,
             done: false
         });
         setTitle("");
         setContent("");
-
     }
+
 
     return (
         <div className='container'>
@@ -46,8 +45,6 @@ function Add({ user }) {
                 <br />
                 <DateTimePicker className='dtpicker margin-aut' onChange={onChange} value={value} />
                 <br />
-                <Button className='btnplus' variant='secondary'><AiFillPlusCircle />
-                </Button><br />
                 <button className='btn btn-outline-danger margin-aut' onClick={add}>Gönder </button>
             </div>
         </div>
