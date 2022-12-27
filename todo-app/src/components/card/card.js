@@ -6,10 +6,10 @@ import { TiTickOutline } from 'react-icons/ti'
 import { BsClockHistory } from 'react-icons/bs'
 import './card.css'
 import db from '../firebases'
+import { Form } from 'react-bootstrap'
 
 const diffTime = (date) => {
     const currentDate = new Date().getTime();
-    console.log(currentDate);
     const diff = date - currentDate;
     const diffHours = Math.round((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
@@ -47,7 +47,22 @@ export class Card extends Component {
                     <div className='card-body'>
                         {this.state.isVisible ? <p className='card-text'>{
                             this.props.content.map((item, index) => {
-                                return <div className="alert alert-danger"> <p key={index}>{item}</p></div>
+                                return (
+                                    <div className='alert alert-danger d-flex justify-content-between'>
+                                        <Form.Check
+                                            type="checkbox"
+                                            id={`default-switch`}
+                                            onChange={() => {
+                                                db.collection('todo').doc(this.props.id).update({
+                                                    content: this.props.content.filter((item, i) => {
+                                                        return i !== index
+                                                    })
+                                                })
+                                            }}
+                                        />
+                                        <p key={index}>{item}</p>
+                                    </div>
+                                )
                             })
                         }</p> : null}
                     </div>

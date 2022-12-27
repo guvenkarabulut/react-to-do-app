@@ -3,11 +3,9 @@ import db from '../firebases'
 import './add.css'
 import DateTimePicker from 'react-datetime-picker';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { CgMathMinus } from 'react-icons/cg'
 
 function Add({ user }) {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
     const [value, onChange] = useState(new Date());
 
 
@@ -32,12 +30,16 @@ function Add({ user }) {
             button.remove();
         })
     }
+
     const takeContent = () => {
         const tasks = document.querySelector('.tasks');
         const inputs = tasks.querySelectorAll('input');
-        const content = [];
+        const content = ([]);
         inputs.forEach((input) => {
-            content.push(input.value);
+            let value = input.value;
+            value = value.trim();
+            value = value.concat('     1')
+            content.push(value, (true));
         })
         return content;
     }
