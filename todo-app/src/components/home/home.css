@@ -1,3 +1,7 @@
+.row {
+    margin: 0;
+}
+
 .todo-goster {
     display: flex;
     flex-direction: column;
@@ -43,12 +47,18 @@
 
     margin: 3px;
     padding: 3px;
-
 }
 
-.main-todo {
-    background-color: rgba(211, 211, 211, 0.5);
-    width: 60%;
-    margin: 0 auto;
-    border-radius: 50px;
+.menu {
+    width: 100%;
+}
+
+.col-2,
+.col-10 {
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    margin-top: 25px;
 }

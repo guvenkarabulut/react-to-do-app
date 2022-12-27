@@ -45,7 +45,11 @@ export class Card extends Component {
 
                     </div>
                     <div className='card-body'>
-                        {this.state.isVisible ? <p className='card-text'>{this.props.description}</p> : null}
+                        {this.state.isVisible ? <p className='card-text'>{
+                            this.props.content.map((item, index) => {
+                                return <div className="alert alert-danger"> <p key={index}>{item}</p></div>
+                            })
+                        }</p> : null}
                     </div>
                     <div className='card-footer d-flex justify-content-between'>
                         <button type='button' className={this.props.done ? 'btn btn-success disabled d-flex align-items-center' : 'btn btn-success d-flex align-items-center'} onClick={() => {//'btn btn-success'
@@ -65,7 +69,7 @@ export class Card extends Component {
 //create react props config for card component
 Card.propTypes = {
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    content: PropTypes.array.isRequired,
     done: PropTypes.bool.isRequired
 }
 //create react default props config for card component
