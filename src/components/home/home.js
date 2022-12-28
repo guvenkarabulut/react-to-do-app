@@ -3,7 +3,6 @@ import db, { auth } from '../firebases'
 import './home.css'
 import Card from '../card/card';
 import Add from '../add/add';
-import Menu from '../menu/Menu';
 import { Form, ListGroup } from 'react-bootstrap';
 
 function Home({ user }) {
@@ -11,7 +10,7 @@ function Home({ user }) {
   const [isVisible, setIsVisible] = useState(false)
   const [isVisibleEkle, setIsVisibleEkle] = useState(false)
   const [todolar, setTodolar] = useState([]);
-
+  const [tasks, setTasks] = useState([]);
   useEffect(() => {
     db.collection('todo').where('email', '==', user.email).onSnapshot(snapshot => {
       setTodolar(snapshot.docs.map(doc => ({ id: doc.id, todo: doc.data() })))
@@ -32,8 +31,12 @@ function Home({ user }) {
       setTodolar(snapshot.docs.map(doc => ({ id: doc.id, todo: doc.data() })))
     })
   }
-
-
+  const getTasks = (id) => {
+    db.collection('tasks').where('id', '==', id).onSnapshot(snapshot => {
+      setTasks(snapshot.docs.map(doc => ({ id: doc.id, task: doc.data() })))
+    })
+    return tasks;
+  }
   return (
     <div className='home'>
       <div className='nav'>
@@ -64,7 +67,7 @@ function Home({ user }) {
               <div className="todo-goster">
                 {todolar.map(({ id, todo }) => (
                   <div className='todo' key={id}>
-                    <Card key={id} id={id} title={todo.title} content={todo.content} done={todo.done} date={todo.date} />
+                    <Card key={id} id={todo.id} title={todo.title} content={getTasks(todo.id)} done={todo.done} date={todo.date} />
                   </div>
                 ))}
               </div>

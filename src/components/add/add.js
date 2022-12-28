@@ -9,39 +9,36 @@ function Add({ user }) {
     const [value, onChange] = useState(new Date());
 
 
-    const add = (e) => {
-        e.preventDefault();
+    const add = () => {
+        const id = db.collection('todo').doc().id;
+
         db.collection('todo').add({
+            id: id,
             title: title,
-            content: takeContent(),
             currentDate: Date(),
             date: value.getTime(),
             email: user.email,
             done: false
-        });
+        }
+        );
+
         setTitle("");
         const tasks = document.querySelector('.tasks');
         const inputs = tasks.querySelectorAll('input');
         const buttons = tasks.querySelectorAll('button');
+        inputs.forEach((input, index) => {
+            db.collection('tasks').add({
+                id: id,
+                content: input.value,
+                done: false
+            })
+        })
         inputs.forEach((input) => {
             input.remove();
         })
         buttons.forEach((button) => {
             button.remove();
         })
-    }
-
-    const takeContent = () => {
-        const tasks = document.querySelector('.tasks');
-        const inputs = tasks.querySelectorAll('input');
-        const content = ([]);
-        inputs.forEach((input) => {
-            let value = input.value;
-            value = value.trim();
-            value = value.concat('     1')
-            content.push(value, (true));
-        })
-        return content;
     }
 
 

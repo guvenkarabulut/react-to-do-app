@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-// import react icons
 import { AiFillEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { TiTickOutline } from 'react-icons/ti'
 import { BsClockHistory } from 'react-icons/bs'
@@ -20,6 +18,26 @@ const diffTime = (date) => {
         return 'btn btn-success disabled d-flex align-items-center'
     }
 }
+/* const getTask = (value) => {
+    if (value === true || value === false) {
+        return null
+    }
+    else {
+        return (
+            <div className='alert alert-danger d-flex justify-content-between' >
+                <Form.Check
+                    type="checkbox"
+                    id={`default-switch`}
+                    className='d-flex align-items-center'
+                   
+                />
+                <p>{value}</p>
+            </div>
+        )
+    }
+} */
+
+
 export class Card extends Component {
     // create state constructer for card component
     constructor(props) {
@@ -28,6 +46,7 @@ export class Card extends Component {
             isVisible: false
         }
     }
+
     render() {
         return (
             <div className='col-md-16 mb-4'>
@@ -45,26 +64,25 @@ export class Card extends Component {
 
                     </div>
                     <div className='card-body'>
-                        {this.state.isVisible ? <p className='card-text'>{
-                            this.props.content.map((item, index) => {
-                                return (
-                                    <div className='alert alert-danger d-flex justify-content-between'>
-                                        <Form.Check
-                                            type="checkbox"
-                                            id={`default-switch`}
-                                            onChange={() => {
-                                                db.collection('todo').doc(this.props.id).update({
-                                                    content: this.props.content.filter((item, i) => {
-                                                        return i !== index
-                                                    })
-                                                })
-                                            }}
-                                        />
-                                        <p key={index}>{item}</p>
-                                    </div>
-                                )
-                            })
-                        }</p> : null}
+                        {this.state.isVisible ? this.props.content.map((value, index) => {
+                            return (
+                                <div className='alert alert-danger d-flex justify-content-between' key={index}>
+                                    <Form.Check
+                                        type="checkbox"
+                                        id={`default-switch`}
+                                        className='d-flex align-items-center'
+                                        checked={value.done}
+                                        onChange={(e) => {
+                                            db.collection('tasks').doc(value.id).update({
+                                                done: e.target.checked
+                                            })
+                                        }}
+                                    />
+                                    <p>{value.task.content}</p>
+                                </div>
+                            )
+                        }) : null
+                        }
                     </div>
                     <div className='card-footer d-flex justify-content-between'>
                         <button type='button' className={this.props.done ? 'btn btn-success disabled d-flex align-items-center' : 'btn btn-success d-flex align-items-center'} onClick={() => {//'btn btn-success'
@@ -79,19 +97,6 @@ export class Card extends Component {
 
         )
     }
-}
-//'btn btn-success disabled d-flex align-items-center'
-//create react props config for card component
-Card.propTypes = {
-    title: PropTypes.string.isRequired,
-    content: PropTypes.array.isRequired,
-    done: PropTypes.bool.isRequired
-}
-//create react default props config for card component
-Card.defaultProps = {
-    title: 'Default Title',
-    description: 'Default Description',
-    done: true
 }
 
 export default Card
