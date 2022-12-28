@@ -86,7 +86,7 @@ export class Card extends Component {
                     </div>
                     <div className='card-footer d-flex justify-content-between'>
                         <button type='button' className={this.props.done ? 'btn btn-success disabled d-flex align-items-center' : 'btn btn-success d-flex align-items-center'} onClick={() => {//'btn btn-success'
-                            db.collection('todo').doc(this.props.id).update({
+                            db.collection('todo').doc(this.props.mainId).update({
                                 done: true
                             })
                         }}><TiTickOutline /></button>

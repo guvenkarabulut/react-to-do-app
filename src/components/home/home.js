@@ -67,7 +67,7 @@ function Home({ user }) {
               <div className="todo-goster">
                 {todolar.map(({ id, todo }) => (
                   <div className='todo' key={id}>
-                    <Card key={id} id={todo.id} title={todo.title} content={getTasks(todo.id)} done={todo.done} date={todo.date} />
+                    <Card key={id} mainId={id} id={todo.id} title={todo.title} content={getTasks(todo.id)} done={todo.done} date={todo.date} />
                   </div>
                 ))}
               </div>
