@@ -4,13 +4,13 @@ import 'firebase/compat/firestore';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA8J6tN30jJye-5Cj8yODtvm3cDOvznUxQ",
-  authDomain: "react-todo-app-b3cc7.firebaseapp.com",
-  projectId: "react-todo-app-b3cc7",
-  storageBucket: "react-todo-app-b3cc7.appspot.com",
-  messagingSenderId: "936912445266",
-  appId: "1:936912445266:web:f6a86513280eb3c34ae48b",
-  measurementId: "G-SSPJRKNWYD"
+  apiKey: `${process.env.REACT_APP_FIREBASE_API_KEY}`,
+  authDomain: `${process.env.REACT_APP_FIREBASE_AUTH_DOMAIN}`,
+  projectId: `${process.env.REACT_APP_FIREBASE_PROJECT_ID}`,
+  storageBucket: `${process.env.REACT_APP_FIREBASE_STORAGE_BUCKET}`,
+  messagingSenderId: `${process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID}`,
+  appId: `${process.env.REACT_APP_FIREBASE_APP_ID}`,
+  measurementId: `${process.env.REACT_APP_FIREBASE_MEASUREMENT_ID}`
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

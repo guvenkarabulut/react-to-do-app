@@ -4,8 +4,8 @@ import "./login.css";
 
 function Login() {
   const login = () => {
-    auth.signInWithPopup(provider).catch((error) => alert(error.message));
-  };
+    auth.signInWithPopup(provider).catch((error) => alert(error.message))
+  }
 
   return (
     <div className='login'>

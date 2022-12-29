@@ -7,9 +7,9 @@ import db from '../firebases'
 import { Form } from 'react-bootstrap'
 
 const diffTime = (date) => {
-    const currentDate = new Date().getTime();
-    const diff = date - currentDate;
-    const diffHours = Math.round((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const currentDate = new Date().getTime()
+    const diff = date - currentDate
+    const diffHours = Math.round((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
 
     if (diffHours < 4) {
         return 'btn btn-danger disabled d-flex align-items-center'
@@ -18,28 +18,8 @@ const diffTime = (date) => {
         return 'btn btn-success disabled d-flex align-items-center'
     }
 }
-/* const getTask = (value) => {
-    if (value === true || value === false) {
-        return null
-    }
-    else {
-        return (
-            <div className='alert alert-danger d-flex justify-content-between' >
-                <Form.Check
-                    type="checkbox"
-                    id={`default-switch`}
-                    className='d-flex align-items-center'
-                   
-                />
-                <p>{value}</p>
-            </div>
-        )
-    }
-} */
-
 
 export class Card extends Component {
-    // create state constructer for card component
     constructor(props) {
         super(props)
         this.state = {
@@ -64,25 +44,29 @@ export class Card extends Component {
 
                     </div>
                     <div className='card-body'>
-                        {this.state.isVisible ? this.props.content.map((value, index) => {
-                            return (
-                                <div className='alert alert-danger d-flex justify-content-between' key={index}>
-                                    <Form.Check
-                                        type="checkbox"
-                                        id={`default-switch`}
-                                        className='d-flex align-items-center'
-                                        checked={value.done}
-                                        onChange={(e) => {
-                                            db.collection('tasks').doc(value.id).update({
-                                                done: e.target.checked
-                                            })
-                                        }}
-                                    />
-                                    <p>{value.task.content}</p>
-                                </div>
-                            )
-                        }) : null
-                        }
+
+                        {this.state.isVisible ? this.props.content.map((element) => {
+                            return element.map(e => {
+                                return (
+                                    <div>
+                                        {e.task.done ? <div className='d-flex justify-content-between' >
+                                            <input className='form-check-input disabled' type='checkbox' id='flexCheckCheckedDisabled' checked={true} />
+                                            <p className='card-text'>{e.task.content}</p>
+                                        </div> : <div className='d-flex justify-content-between' >
+                                            <input className='form-check-input' type='checkbox' onChange={() => {
+                                                db.collection('tasks').doc(e.id).update({
+                                                    done: true
+                                                })
+                                            }
+                                            } />
+                                            <p className='card-text'>{e.task.content}</p>
+                                        </div>
+                                        }
+
+                                    </div>
+                                )
+                            })
+                        }) : null}
                     </div>
                     <div className='card-footer d-flex justify-content-between'>
                         <button type='button' className={this.props.done ? 'btn btn-success disabled d-flex align-items-center' : 'btn btn-success d-flex align-items-center'} onClick={() => {//'btn btn-success'
